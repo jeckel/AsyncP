@@ -154,6 +154,9 @@ final class OutgoingMessageFactoryTest extends TestCase
             ->willReturn($uuid);
 
         $command = $this->createMock(IncomingCommandInterface::class);
+        $command->expects($this->once())
+            ->method('getCorrelationId')
+            ->willReturn('foo-bar');
 
         $message = $this->factory->createDocumentMessage(['foo' => 'bar'], $command);
 
@@ -164,6 +167,7 @@ final class OutgoingMessageFactoryTest extends TestCase
         $this->assertEquals($this->appId, $message->getApplicationId());
         $this->assertEquals(['foo' => 'bar'], $message->getDocument());
         $this->assertSame($command, $message->getCommand());
+        $this->assertEquals('foo-bar', $message->getCommandId());
         $this->assertNull($message->getPublishedAt());
     }
 }

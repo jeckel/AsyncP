@@ -13,7 +13,7 @@ use AsyncP\Message\DocumentInterface;
  * Interface OutgoingDocumentInterface
  * @package AsyncP\Message\Outgoing
  */
-interface OutgoingDocumentInterface extends OutgoingInterface, DocumentInterface
+interface OutgoingDocumentInterface extends OutgoingInterface, DocumentInterface, OutgoingCommandResponseInterface
 {
 
 }
