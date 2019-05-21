@@ -9,6 +9,7 @@ namespace AsyncP\Factory;
 
 use AsyncP\CorrelationId\CorrelationIdGeneratorInterface;
 use AsyncP\Message\Outgoing\CommandMessage;
+use AsyncP\Message\Outgoing\EventMessage;
 use Exception;
 
 /**
@@ -53,5 +54,24 @@ class OutgoingMessageFactory
             ->setApplicationId($this->applicationId);
 
         return $message;
+    }
+
+    /**
+     * @param string      $eventId
+     * @param string|null $targetType
+     * @param string|null $targetId
+     * @param string|null $resourceUri
+     * @return EventMessage
+     * @throws Exception
+     */
+    public function createEventMessage(string $eventId, ?string $targetType, ?string $targetId, ?string $resourceUri): EventMessage
+    {
+        return (new EventMessage())
+            ->setEventId($eventId)
+            ->setTargetType($targetType)
+            ->setTargetId($targetId)
+            ->setResourceUri($resourceUri)
+            ->setCorrelationId($this->idGenerator->createId())
+            ->setApplicationId($this->applicationId);
     }
 }
