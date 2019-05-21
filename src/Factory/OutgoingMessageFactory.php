@@ -5,14 +5,17 @@ declare(strict_types=1);
  * Date: 21/05/19
  * Time: 10:13
  */
+
 namespace AsyncP\Factory;
 
 use AsyncP\CorrelationId\CorrelationIdGeneratorInterface;
-use AsyncP\Message\CommandInterface;
 use AsyncP\Message\Incoming\IncomingCommandInterface;
-use AsyncP\Message\Outgoing\CommandMessage;
-use AsyncP\Message\Outgoing\DocumentMessage;
-use AsyncP\Message\Outgoing\EventMessage;
+use AsyncP\Message\Outgoing\OutgoingCommandInterface;
+use AsyncP\Message\Outgoing\OutgoingCommand;
+use AsyncP\Message\Outgoing\OutgoingDocument;
+use AsyncP\Message\Outgoing\OutgoingDocumentInterface;
+use AsyncP\Message\Outgoing\OutgoingEvent;
+use AsyncP\Message\Outgoing\OutgoingEventInterface;
 use Exception;
 
 /**
@@ -44,12 +47,15 @@ class OutgoingMessageFactory
      * @param string      $command
      * @param array       $params
      * @param string|null $replyTo
-     * @return CommandMessage
+     * @return OutgoingCommandInterface
      * @throws Exception
      */
-    public function createCommandMessage(string $command, array $params = [], string $replyTo = null): CommandMessage
-    {
-        $message = (new CommandMessage())
+    public function createCommandMessage(
+        string $command,
+        array $params = [],
+        string $replyTo = null
+    ): OutgoingCommandInterface {
+        $message = (new OutgoingCommand())
             ->setCommand($command)
             ->setParameters($params)
             ->setReplyTo($replyTo)
@@ -64,7 +70,7 @@ class OutgoingMessageFactory
      * @param string|null $targetType
      * @param string|null $targetId
      * @param string|null $resourceUri
-     * @return EventMessage
+     * @return OutgoingEventInterface
      * @throws Exception
      */
     public function createEventMessage(
@@ -72,8 +78,8 @@ class OutgoingMessageFactory
         string $targetType = null,
         string $targetId = null,
         string $resourceUri = null
-    ): EventMessage {
-        return (new EventMessage())
+    ): OutgoingEventInterface {
+        return (new OutgoingEvent())
             ->setEventId($eventId)
             ->setTargetType($targetType)
             ->setTargetId($targetId)
@@ -83,14 +89,16 @@ class OutgoingMessageFactory
     }
 
     /**
-     * @param array            $document
+     * @param array                    $document
      * @param IncomingCommandInterface $command
-     * @return DocumentMessage
+     * @return OutgoingDocumentInterface
      * @throws Exception
      */
-    public function createDocumentMessage(array $document, IncomingCommandInterface $command)
-    {
-        return (new DocumentMessage())
+    public function createDocumentMessage(
+        array $document,
+        IncomingCommandInterface $command
+    ): OutgoingDocumentInterface {
+        return (new OutgoingDocument())
             ->setDocument($document)
             ->setCommand($command)
             ->setCorrelationId($this->idGenerator->createId())

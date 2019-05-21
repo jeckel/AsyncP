@@ -9,8 +9,8 @@ use AsyncP\Message\CommandInterface;
 use AsyncP\Message\EventInterface;
 use AsyncP\Message\Incoming\IncomingCommandInterface;
 use AsyncP\Message\MessageType;
-use AsyncP\Message\Outgoing\DocumentMessage;
-use AsyncP\Message\Outgoing\OutgoingMessageInterface;
+use AsyncP\Message\Outgoing\OutgoingDocument;
+use AsyncP\Message\Outgoing\OutgoingInterface;
 use Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -56,7 +56,7 @@ final class OutgoingMessageFactoryTest extends TestCase
         $message = $this->factory->createCommandMessage('SendMail', $params);
 
         $this->assertInstanceOf(CommandInterface::class, $message);
-        $this->assertInstanceOf(OutgoingMessageInterface::class, $message);
+        $this->assertInstanceOf(OutgoingInterface::class, $message);
         $this->assertEquals(MessageType::COMMAND, $message->getType());
         $this->assertEquals($uuid, $message->getCorrelationId());
         $this->assertEquals($this->appId, $message->getApplicationId());
@@ -82,7 +82,7 @@ final class OutgoingMessageFactoryTest extends TestCase
         $message = $this->factory->createCommandMessage('SendMail', $params, 'reply.queue');
 
         $this->assertInstanceOf(CommandInterface::class, $message);
-        $this->assertInstanceOf(OutgoingMessageInterface::class, $message);
+        $this->assertInstanceOf(OutgoingInterface::class, $message);
         $this->assertEquals(MessageType::COMMAND, $message->getType());
         $this->assertEquals($uuid, $message->getCorrelationId());
         $this->assertEquals($this->appId, $message->getApplicationId());
@@ -106,7 +106,7 @@ final class OutgoingMessageFactoryTest extends TestCase
         $message = $this->factory->createEventMessage('new-user');
 
         $this->assertInstanceOf(EventInterface::class, $message);
-        $this->assertInstanceOf(OutgoingMessageInterface::class, $message);
+        $this->assertInstanceOf(OutgoingInterface::class, $message);
         $this->assertEquals(MessageType::EVENT, $message->getType());
         $this->assertEquals($uuid, $message->getCorrelationId());
         $this->assertEquals($this->appId, $message->getApplicationId());
@@ -131,7 +131,7 @@ final class OutgoingMessageFactoryTest extends TestCase
         $message = $this->factory->createEventMessage('new-user', 'user', 'user-124', 'http://myapp/user/124');
 
         $this->assertInstanceOf(EventInterface::class, $message);
-        $this->assertInstanceOf(OutgoingMessageInterface::class, $message);
+        $this->assertInstanceOf(OutgoingInterface::class, $message);
         $this->assertEquals(MessageType::EVENT, $message->getType());
         $this->assertEquals($uuid, $message->getCorrelationId());
         $this->assertEquals($this->appId, $message->getApplicationId());
@@ -157,8 +157,8 @@ final class OutgoingMessageFactoryTest extends TestCase
 
         $message = $this->factory->createDocumentMessage(['foo' => 'bar'], $command);
 
-        $this->assertInstanceOf(DocumentMessage::class, $message);
-        $this->assertInstanceOf(OutgoingMessageInterface::class, $message);
+        $this->assertInstanceOf(OutgoingDocument::class, $message);
+        $this->assertInstanceOf(OutgoingInterface::class, $message);
         $this->assertEquals(MessageType::DOCUMENT, $message->getType());
         $this->assertEquals($uuid, $message->getCorrelationId());
         $this->assertEquals($this->appId, $message->getApplicationId());

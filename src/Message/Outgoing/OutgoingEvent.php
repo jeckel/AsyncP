@@ -5,18 +5,16 @@ declare(strict_types=1);
  * Date: 21/05/19
  * Time: 11:32
  */
-
 namespace AsyncP\Message\Outgoing;
 
-use AsyncP\Message\EventInterface;
 use AsyncP\Message\EventTrait;
 use AsyncP\Message\MessageTrait;
 
 /**
- * Class EventMessage
+ * Class OutgoingEvent
  * @package AsyncP\Message\Outgoing
  */
-class EventMessage implements EventInterface, OutgoingMessageInterface
+class OutgoingEvent implements OutgoingEventInterface
 {
     use MessageTrait;
     use EventTrait;

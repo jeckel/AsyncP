@@ -9,15 +9,14 @@ declare(strict_types=1);
 namespace AsyncP\Message\Outgoing;
 
 use AsyncP\Message\CommandResponseTrait;
-use AsyncP\Message\DocumentInterface;
 use AsyncP\Message\DocumentTrait;
 use AsyncP\Message\MessageTrait;
 
 /**
- * Class DocumentMessage
+ * Class OutgoingDocument
  * @package AsyncP\Message\Outgoing
  */
-class DocumentMessage implements DocumentInterface, OutgoingMessageInterface
+class OutgoingDocument implements OutgoingDocumentInterface
 {
     use MessageTrait;
     use DocumentTrait;
