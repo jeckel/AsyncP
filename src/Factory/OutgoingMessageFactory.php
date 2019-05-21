@@ -64,8 +64,12 @@ class OutgoingMessageFactory
      * @return EventMessage
      * @throws Exception
      */
-    public function createEventMessage(string $eventId, ?string $targetType, ?string $targetId, ?string $resourceUri): EventMessage
-    {
+    public function createEventMessage(
+        string $eventId,
+        string $targetType = null,
+        string $targetId = null,
+        string $resourceUri = null
+    ): EventMessage {
         return (new EventMessage())
             ->setEventId($eventId)
             ->setTargetType($targetType)
