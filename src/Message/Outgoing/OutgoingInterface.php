@@ -8,11 +8,16 @@ declare(strict_types=1);
 namespace AsyncP\Message\Outgoing;
 
 use AsyncP\Message\MessageInterface;
+use DateTimeInterface;
 
 /**
  * Interface OutgoingInterface
  */
 interface OutgoingInterface extends MessageInterface
 {
-
+    /**
+     * @param DateTimeInterface $dateTime
+     * @return self
+     */
+    public function setPublishedAt(DateTimeInterface $dateTime);
 }
