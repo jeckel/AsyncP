@@ -14,9 +14,12 @@ use AsyncP\Message\Outgoing\OutgoingCommandInterface;
 use AsyncP\Message\Outgoing\OutgoingCommand;
 use AsyncP\Message\Outgoing\OutgoingDocument;
 use AsyncP\Message\Outgoing\OutgoingDocumentInterface;
+use AsyncP\Message\Outgoing\OutgoingError;
+use AsyncP\Message\Outgoing\OutgoingErrorInterface;
 use AsyncP\Message\Outgoing\OutgoingEvent;
 use AsyncP\Message\Outgoing\OutgoingEventInterface;
 use Exception;
+use Throwable;
 
 /**
  * Class OutgoingMessageFactory
@@ -103,5 +106,40 @@ class OutgoingMessageFactory
             ->setCommand($command)
             ->setCorrelationId($this->idGenerator->createId())
             ->setApplicationId($this->applicationId);
+    }
+
+    /**
+     * @param string                   $errorCode
+     * @param string                   $errorMessage
+     * @param IncomingCommandInterface $command
+     * @return OutgoingErrorInterface
+     * @throws Exception
+     */
+    public function createErrorMessage(
+        string $errorCode,
+        string $errorMessage,
+        IncomingCommandInterface $command
+    ): OutgoingErrorInterface {
+        return (new OutgoingError())
+            ->setErrorCode($errorCode)
+            ->setErrorMessage($errorMessage)
+            ->setCommand($command)
+            ->setCorrelationId($this->idGenerator->createId())
+            ->setApplicationId($this->applicationId);
+    }
+
+    /**
+     * To use in a try/catch
+     *
+     * @param Throwable                $error
+     * @param IncomingCommandInterface $command
+     * @return OutgoingErrorInterface
+     * @throws Exception
+     */
+    public function createErrorFromException(
+        Throwable $error,
+        IncomingCommandInterface $command
+    ): OutgoingErrorInterface {
+        return $this->createErrorMessage(strval($error->getCode()), $error->getMessage(), $command);
     }
 }

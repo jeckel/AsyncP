@@ -10,11 +10,13 @@ use AsyncP\Message\EventInterface;
 use AsyncP\Message\Incoming\IncomingCommandInterface;
 use AsyncP\Message\MessageType;
 use AsyncP\Message\Outgoing\OutgoingDocument;
+use AsyncP\Message\Outgoing\OutgoingError;
 use AsyncP\Message\Outgoing\OutgoingInterface;
 use Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ReflectionException;
+use Throwable;
 
 /**
  * Class OutgoingMessageFactoryTest
@@ -169,5 +171,69 @@ final class OutgoingMessageFactoryTest extends TestCase
         $this->assertSame($command, $message->getCommand());
         $this->assertEquals('foo-bar', $message->getCommandId());
         $this->assertNull($message->getPublishedAt());
+    }
+
+    /**
+     * @test createErrorMessage
+     * @throws Exception
+     */
+    public function testCreateErrorMessage()
+    {
+        $uuid = '077882b2-f32a-478b-8f75-0bfe8ddb9724';
+        $this->idGenerator->expects($this->once())
+            ->method('createId')
+            ->willReturn($uuid);
+
+        $command = $this->createMock(IncomingCommandInterface::class);
+        $command->expects($this->once())
+            ->method('getCorrelationId')
+            ->willReturn('foo-bar');
+
+        $message = $this->factory->createErrorMessage('ERR-1234', 'Undefined use case', $command);
+
+        $this->assertInstanceOf(OutgoingError::class, $message);
+        $this->assertInstanceOf(OutgoingInterface::class, $message);
+        $this->assertEquals(MessageType::ERROR, $message->getType());
+        $this->assertEquals($uuid, $message->getCorrelationId());
+        $this->assertEquals($this->appId, $message->getApplicationId());
+        $this->assertEquals('ERR-1234', $message->getErrorCode());
+        $this->assertEquals('Undefined use case', $message->getErrorMessage());
+        $this->assertSame($command, $message->getCommand());
+        $this->assertEquals('foo-bar', $message->getCommandId());
+        $this->assertNull($message->getPublishedAt());
+    }
+
+    /**
+     * @test createErrorFromException
+     * @throws Exception
+     */
+    public function testCreateErrorFromException()
+    {
+        $uuid = '077882b2-f32a-478b-8f75-0bfe8ddb9724';
+        $this->idGenerator->expects($this->once())
+            ->method('createId')
+            ->willReturn($uuid);
+
+        $command = $this->createMock(IncomingCommandInterface::class);
+        $command->expects($this->once())
+            ->method('getCorrelationId')
+            ->willReturn('foo-bar');
+
+        try {
+            throw new Exception('There is an error', 999);
+        } catch (Throwable $e) {
+            $message = $this->factory->createErrorFromException($e, $command);
+
+            $this->assertInstanceOf(OutgoingError::class, $message);
+            $this->assertInstanceOf(OutgoingInterface::class, $message);
+            $this->assertEquals(MessageType::ERROR, $message->getType());
+            $this->assertEquals($uuid, $message->getCorrelationId());
+            $this->assertEquals($this->appId, $message->getApplicationId());
+            $this->assertEquals('999', $message->getErrorCode());
+            $this->assertEquals('There is an error', $message->getErrorMessage());
+            $this->assertSame($command, $message->getCommand());
+            $this->assertEquals('foo-bar', $message->getCommandId());
+            $this->assertNull($message->getPublishedAt());
+        }
     }
 }
