@@ -66,12 +66,12 @@ trait MessageTrait
     }
 
     /**
-     * @param DateTimeInterface|null $publishedAt
+     * @param DateTimeInterface $dateTime
      * @return self
      */
-    public function setPublishedAt(?DateTimeInterface $publishedAt): self
+    public function setPublishedAt(DateTimeInterface $dateTime): self
     {
-        $this->publishedAt = $publishedAt;
+        $this->publishedAt = $dateTime;
         return $this;
     }
 
