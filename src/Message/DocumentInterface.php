@@ -10,7 +10,10 @@ namespace AsyncP\Message;
 /**
  * Interface DocumentInterface
  */
-interface DocumentInterface extends MessageInterface
+interface DocumentInterface extends MessageInterface, CommandResponseInterface
 {
-
+    /**
+     * @return array
+     */
+    public function getDocument(): array;
 }

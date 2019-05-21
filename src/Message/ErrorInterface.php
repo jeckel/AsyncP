@@ -10,7 +10,15 @@ namespace AsyncP\Message;
 /**
  * Interface ErrorInterface
  */
-interface ErrorInterface extends MessageInterface
+interface ErrorInterface extends MessageInterface, CommandResponseInterface
 {
+    /**
+     * @return string
+     */
+    public function getErrorCode(): string;
 
+    /**
+     * @return string
+     */
+    public function getErrorMessage(): string;
 }

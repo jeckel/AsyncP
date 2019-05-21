@@ -15,4 +15,7 @@ namespace AsyncP\Message;
 interface MessageType
 {
     const COMMAND = 'COMMAND';
+    const EVENT = 'EVENT';
+    const DOCUMENT = 'DOCUMENT';
+    const ERROR = 'ERROR';
 }

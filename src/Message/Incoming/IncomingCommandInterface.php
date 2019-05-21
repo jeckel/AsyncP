@@ -3,19 +3,18 @@ declare(strict_types=1);
 /**
  * User: jeckel
  * Date: 21/05/19
- * Time: 09:57
+ * Time: 14:16
  */
 
 namespace AsyncP\Message\Incoming;
 
 use AsyncP\Message\CommandInterface;
-use AsyncP\Message\CommandTrait;
 
 /**
- * Class CommandMessage
+ * Interface IncomingCommandInterface
  * @package AsyncP\Message\Incoming
  */
-class CommandMessage implements CommandInterface, IncomingMessageInterface
+interface IncomingCommandInterface extends CommandInterface, IncomingMessageInterface
 {
-    use CommandTrait;
+
 }

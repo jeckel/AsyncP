@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace AsyncP\Message;
 
 use DateTimeInterface;
+use RuntimeException;
 
 /**
  * Trait MessageTrait
@@ -17,7 +18,7 @@ use DateTimeInterface;
 trait MessageTrait
 {
     /**
-     * @var string|null
+     * @var string
      */
     protected $correlationId;
 
@@ -35,9 +36,13 @@ trait MessageTrait
      * Return unique message id
      *
      * @return string
+     * @throws RuntimeException
      */
-    public function getCorrelationId(): ?string
+    public function getCorrelationId(): string
     {
+        if (empty($this->correlationId)) {
+            throw new RuntimeException('Correlation id has not been initialized');
+        }
         return $this->correlationId;
     }
 

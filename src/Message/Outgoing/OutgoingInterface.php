@@ -10,9 +10,9 @@ namespace AsyncP\Message\Outgoing;
 use AsyncP\Message\MessageInterface;
 
 /**
- * Interface OutgoingMessageInterface
+ * Interface OutgoingInterface
  */
-interface OutgoingMessageInterface extends MessageInterface
+interface OutgoingInterface extends MessageInterface
 {
 
 }

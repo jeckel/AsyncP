@@ -24,9 +24,9 @@ interface MessageInterface
     /**
      * Return unique message id
      *
-     * @return string|null
+     * @return string
      */
-    public function getCorrelationId(): ?string;
+    public function getCorrelationId(): string;
 
     /**
      * Return publish timestamp
