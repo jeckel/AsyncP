@@ -14,7 +14,6 @@ use AsyncP\Message\Outgoing\OutgoingInterface;
 use AsyncP\Publisher\Adapter\PublisherAdapterInterface;
 use Jeckel\Clock\ClockInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
-use RuntimeException;
 
 /**
  * Class PublisherAbstract
@@ -22,13 +21,13 @@ use RuntimeException;
  */
 class Publisher implements PublisherInterface
 {
-    /** @var ClockInterface|null */
+    /** @var ClockInterface */
     protected $clock;
 
     /** @var EventDispatcherInterface|null */
     protected $eventDispatcher;
 
-    /** @var PublisherAdapterInterface|null */
+    /** @var PublisherAdapterInterface */
     protected $adapter;
 
     /**

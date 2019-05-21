@@ -59,7 +59,7 @@ final class PublisherTest extends TestCase
 
         $this->adapter->expects($this->once())
             ->method('publish')
-            ->with($this->callback(function($subject) use ($message) {
+            ->with($this->callback(function ($subject) use ($message) {
                 $this->assertSame($message, $subject);
                 $this->assertNull($message->getPublishedAt());
                 return true;
@@ -82,7 +82,7 @@ final class PublisherTest extends TestCase
         $message = $this->createMock(OutgoingInterface::class);
         $message->expects($this->once())
             ->method('setPublishedAt')
-            ->with($this->callback(function($time) use($publishedTime, &$publishedTimeSet) {
+            ->with($this->callback(function ($time) use ($publishedTime, &$publishedTimeSet) {
                 $this->assertSame($publishedTime, $time);
                 $this->assertFalse($publishedTimeSet);
                 $publishedTimeSet = true;
@@ -95,7 +95,7 @@ final class PublisherTest extends TestCase
 
         $this->adapter->expects($this->once())
             ->method('publish')
-            ->with($this->callback(function($subject) use ($message) {
+            ->with($this->callback(function ($subject) use ($message) {
                 $this->assertSame($message, $subject);
                 $this->assertNull($message->getPublishedAt());
                 return true;
@@ -108,7 +108,7 @@ final class PublisherTest extends TestCase
         // Check prePublish event
         $eventDispatcher->expects($this->at(0))
             ->method('dispatch')
-            ->with($this->callback(function($event) use ($message) {
+            ->with($this->callback(function ($event) use ($message) {
                 $this->assertInstanceOf(PrePublishEvent::class, $event);
                 $this->assertEquals(PrePublishEvent::EVENT_NAME, $event->getEventName());
                 $this->assertSame($message, $event->getMessage());
@@ -119,7 +119,7 @@ final class PublisherTest extends TestCase
         // Check postPublish event
         $eventDispatcher->expects($this->at(1))
             ->method('dispatch')
-            ->with($this->callback(function($event) use ($message, $publishedTime, &$publishedTimeSet) {
+            ->with($this->callback(function ($event) use ($message, $publishedTime, &$publishedTimeSet) {
                 $this->assertInstanceOf(PostPublishEvent::class, $event);
                 $this->assertEquals(PostPublishEvent::EVENT_NAME, $event->getEventName());
                 $this->assertSame($message, $event->getMessage());
