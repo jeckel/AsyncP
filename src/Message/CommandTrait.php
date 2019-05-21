@@ -32,6 +32,14 @@ trait CommandTrait
     protected $replyTo;
 
     /**
+     * @return string
+     */
+    public function getType(): string
+    {
+        return MessageType::COMMAND;
+    }
+
+    /**
      * Return command
      *
      * @return string

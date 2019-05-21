@@ -16,6 +16,12 @@ use DateTimeInterface;
 interface MessageInterface
 {
     /**
+     * Return message type
+     * @return string
+     */
+    public function getType(): string;
+
+    /**
      * Return unique message id
      *
      * @return string|null

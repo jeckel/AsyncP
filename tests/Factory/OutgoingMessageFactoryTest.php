@@ -5,6 +5,7 @@ namespace Tests\AsyncP\Factory;
 
 use AsyncP\CorrelationId\CorrelationIdGeneratorInterface;
 use AsyncP\Factory\OutgoingMessageFactory;
+use AsyncP\Message\MessageType;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -31,6 +32,7 @@ final class OutgoingMessageFactoryTest extends TestCase
 
         $message = $factory->createCommandMessage('SendMail', $params);
 
+        $this->assertEquals(MessageType::COMMAND, $message->getType());
         $this->assertEquals($uuid, $message->getCorrelationId());
         $this->assertEquals($appId, $message->getApplicationId());
         $this->assertEquals('SendMail', $message->getCommand());
