@@ -28,7 +28,7 @@ trait ErrorTrait
     }
 
     /**
-     * @return string|null
+     * @return string
      */
     public function getErrorCode(): string
     {
