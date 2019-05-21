@@ -1,4 +1,4 @@
-.PHONY: phpstan phpcs phpmd phpunit qa
+.PHONY: phpstan phpcs phpmd phpunit qa test
 
 DOCKER=docker run -u $(shell id -u):$(shell id -g) -v $(shell pwd):/app -w /app jeckel/php-test:7.3-cli-alpine
 
@@ -11,6 +11,7 @@ phpcs:
 phpmd:
 	@${DOCKER} vendor/bin/phpmd src text cleancode,codesize,design,naming,unusedcode
 
+test: phpunit
 phpunit:
 	@${DOCKER} vendor/bin/phpunit --coverage-text
 
