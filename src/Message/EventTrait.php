@@ -14,8 +14,6 @@ namespace AsyncP\Message;
  */
 trait EventTrait
 {
-    use MessageTrait;
-
     /** @var string */
     protected $eventId;
 

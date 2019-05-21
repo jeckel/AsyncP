@@ -10,6 +10,7 @@ namespace AsyncP\Message\Outgoing;
 
 use AsyncP\Message\EventInterface;
 use AsyncP\Message\EventTrait;
+use AsyncP\Message\MessageTrait;
 
 /**
  * Class EventMessage
@@ -17,5 +18,6 @@ use AsyncP\Message\EventTrait;
  */
 class EventMessage implements EventInterface, OutgoingMessageInterface
 {
+    use MessageTrait;
     use EventTrait;
 }

@@ -14,8 +14,6 @@ namespace AsyncP\Message;
  */
 trait CommandTrait
 {
-    use MessageTrait;
-
     /**
      * @var string
      */

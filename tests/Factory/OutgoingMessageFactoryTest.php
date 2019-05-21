@@ -7,7 +7,9 @@ use AsyncP\CorrelationId\CorrelationIdGeneratorInterface;
 use AsyncP\Factory\OutgoingMessageFactory;
 use AsyncP\Message\CommandInterface;
 use AsyncP\Message\EventInterface;
+use AsyncP\Message\Incoming\IncomingCommandInterface;
 use AsyncP\Message\MessageType;
+use AsyncP\Message\Outgoing\DocumentMessage;
 use AsyncP\Message\Outgoing\OutgoingMessageInterface;
 use Exception;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -137,6 +139,31 @@ final class OutgoingMessageFactoryTest extends TestCase
         $this->assertEquals('user', $message->getTargetType());
         $this->assertEquals('user-124', $message->getTargetId());
         $this->assertEquals('http://myapp/user/124', $message->getResourceUri());
+        $this->assertNull($message->getPublishedAt());
+    }
+
+    /**
+     * @test createDocumentMessage
+     * @throws Exception
+     */
+    public function testCreateDocumentMessage()
+    {
+        $uuid = '077882b2-f32a-478b-8f75-0bfe8ddb9724';
+        $this->idGenerator->expects($this->once())
+            ->method('createId')
+            ->willReturn($uuid);
+
+        $command = $this->createMock(IncomingCommandInterface::class);
+
+        $message = $this->factory->createDocumentMessage(['foo' => 'bar'], $command);
+
+        $this->assertInstanceOf(DocumentMessage::class, $message);
+        $this->assertInstanceOf(OutgoingMessageInterface::class, $message);
+        $this->assertEquals(MessageType::DOCUMENT, $message->getType());
+        $this->assertEquals($uuid, $message->getCorrelationId());
+        $this->assertEquals($this->appId, $message->getApplicationId());
+        $this->assertEquals(['foo' => 'bar'], $message->getDocument());
+        $this->assertSame($command, $message->getCommand());
         $this->assertNull($message->getPublishedAt());
     }
 }

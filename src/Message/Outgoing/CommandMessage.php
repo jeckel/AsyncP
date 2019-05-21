@@ -10,6 +10,7 @@ namespace AsyncP\Message\Outgoing;
 
 use AsyncP\Message\CommandInterface;
 use AsyncP\Message\CommandTrait;
+use AsyncP\Message\MessageTrait;
 
 /**
  * Class CommandMessage
@@ -17,5 +18,6 @@ use AsyncP\Message\CommandTrait;
  */
 class CommandMessage implements OutgoingMessageInterface, CommandInterface
 {
+    use MessageTrait;
     use CommandTrait;
 }

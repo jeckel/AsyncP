@@ -8,7 +8,10 @@ declare(strict_types=1);
 namespace AsyncP\Factory;
 
 use AsyncP\CorrelationId\CorrelationIdGeneratorInterface;
+use AsyncP\Message\CommandInterface;
+use AsyncP\Message\Incoming\IncomingCommandInterface;
 use AsyncP\Message\Outgoing\CommandMessage;
+use AsyncP\Message\Outgoing\DocumentMessage;
 use AsyncP\Message\Outgoing\EventMessage;
 use Exception;
 
@@ -75,6 +78,21 @@ class OutgoingMessageFactory
             ->setTargetType($targetType)
             ->setTargetId($targetId)
             ->setResourceUri($resourceUri)
+            ->setCorrelationId($this->idGenerator->createId())
+            ->setApplicationId($this->applicationId);
+    }
+
+    /**
+     * @param array            $document
+     * @param IncomingCommandInterface $command
+     * @return DocumentMessage
+     * @throws Exception
+     */
+    public function createDocumentMessage(array $document, IncomingCommandInterface $command)
+    {
+        return (new DocumentMessage())
+            ->setDocument($document)
+            ->setCommand($command)
             ->setCorrelationId($this->idGenerator->createId())
             ->setApplicationId($this->applicationId);
     }
